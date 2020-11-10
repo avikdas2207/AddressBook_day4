@@ -1,113 +1,10 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+public class AddressBook{
+	public static void main(String[] args) {
+		Contact contact=new Contact("Paul", "Allen", "52, Baker's Street", "New York", "California", 832110, 1234567890,"paul@cap.com");
+		System.out.println("New Contact has been create in address book.\n"+contact);
+	}	
+}
 
-public class AddressBook implements ManageAddressBook{
-	static Scanner sc=new Scanner(System.in);
-	static Map<String,AddressBook> nameToAddressBookMap=new HashMap<String,AddressBook>();
-	public String name;
-	public ArrayList<Contact> contacts;
-	public Map<String,Contact> nameToContactMap;
-	
-	public AddressBook(String name) {
-		super();
-		this.name=name;
-		this.contacts = new ArrayList<Contact>();
-		this.nameToContactMap=new HashMap<String,Contact>();
-	}
-	
-	public void addContacts() {
-		while(true) {
-			System.out.println("1.Add next Contact\n2.Exit\nEnter your choice: ");
-			int choice1=Integer.parseInt(sc.nextLine());
-			if(choice1==1) {
-				System.out.println("Enter the fields in order: \nfirst_name\nlastname\naddress\ncity\nstate\nzip\nphone no.\nemail");
-				Contact contact=new Contact(sc.nextLine(),sc.nextLine(),sc.nextLine(),sc.nextLine(),sc.nextLine(),Integer.parseInt(sc.nextLine()),Long.parseLong(sc.nextLine()),sc.nextLine());
-				this.contacts.add(contact);
-				this.nameToContactMap.put(contact.getFirstName()+" "+contact.getLastName(), contact);
-			}
-			else if(choice1==2) {
-				break;
-			}
-			else {
-				System.out.println("Invalid Choice. Try Again.");
-			}
-		}
-		
-	}
-	
-	public void editContact() {
-		System.out.println("Enter name of person whose contact details are to be edited: ");
-		String name=sc.nextLine();
-		System.out.println("Enter the new fields in order: \naddress\ncity\nstate\nzip\nphone no.\nemail");
-		nameToContactMap.get(name).setAddress(sc.nextLine());
-		nameToContactMap.get(name).setCity(sc.nextLine());
-		nameToContactMap.get(name).setState(sc.nextLine());
-		nameToContactMap.get(name).setZip(Integer.parseInt(sc.nextLine()));
-		nameToContactMap.get(name).setPhoneNumber(Long.parseLong(sc.nextLine()));
-		nameToContactMap.get(name).setEmail(sc.nextLine());			
-	}
-	
-	public void deleteContact() {
-		System.out.println("Enter the name of Contact person to be deleted: ");
-		String name=sc.nextLine();
-		contacts.remove(nameToContactMap.get(name));
-		nameToContactMap.remove(name);		
-	}
-	
-	public static void addAddressBooks() {
-		while(true) {
-			System.out.println("1.Add an address book\n2.Exit\nEnter your choice: ");
-			int choice=Integer.parseInt(sc.nextLine());
-			if(choice==1) {
-				System.out.println("Enter name of the address book");
-				String name=sc.nextLine();
-				nameToAddressBookMap.put(name,new AddressBook(name));
-			}
-			else if(choice==2) {
-				break;
-			}
-			else {
-				System.out.println("Invalid choice. Try again.");
-			}
-		}
-	}
-	@Override
-	public String toString() {
-		return "Address Book "+name+" with "+contacts.size()+(contacts.size()==1?" contact":" contacts");
-	}
-	public static void main(String[] args){	
-		addAddressBooks();
-		System.out.println("Enter the name of the address book to continue: ");
-		AddressBook addressBook=nameToAddressBookMap.get(sc.nextLine());
-		if(addressBook==null) {
-				System.out.println("No address book found with that name.");;
-		}
-		else {
-			addressBook.addContacts();
-			System.out.println(addressBook);
-			System.out.println("Before edit:");
-			for(Contact contact: addressBook.contacts) {
-				System.out.println(contact);
-			}
-			addressBook.editContact();		
-			System.out.println("After edit");
-			for(Contact contact: addressBook.contacts) {
-				System.out.println(contact);
-			}
-			addressBook.deleteContact();
-			System.out.println("After deletion of contact: \n"+addressBook);
-		}			
-		sc.close();	
-	}
-	
-}
-interface ManageAddressBook{
-	public void addContacts();
-	public void editContact();
-	public void deleteContact();
-}
 class Contact{
 	private String firstName;
 	private String lastName;
@@ -179,7 +76,7 @@ class Contact{
 	}
 	@Override
 	public String toString() {
-		return "Contact: "+firstName +" "+ lastName+ ", "+address+", "+city+", " +state+ ", "+zip+", "+ phoneNumber + "\n"+email+".";
+		return "Contact: "+firstName + lastName+ ", "+address+", "+city+", " +state+ ", "+", " +zip+ ", "+ phoneNumber + "\n"+email+".";
 	}
 	
 }
